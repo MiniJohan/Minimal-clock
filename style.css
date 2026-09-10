@@ -1,0 +1,283 @@
+/* =========================
+   CONFIG
+   ========================= */
+
+:root {
+    --background: #000000;
+    --foreground: #ffffff;
+
+    --time-size: 5vw;
+    --date-size: 0.9rem;
+
+    --letter-spacing: 0.08em;
+
+    --visual-size: 55vmin;
+    --visual-opacity: 0.12;
+    --visual-speed: 60s;
+
+    --transition-speed: 500ms;
+}
+
+
+/* =========================
+   RESET
+   ========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background: var(--background);
+    color: var(--foreground);
+
+    font-family:
+        Inter,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   MAIN LAYOUT
+   ========================= */
+
+.clock {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+/* =========================
+   VISUAL
+   ========================= */
+
+.visual {
+    position: absolute;
+
+    width: var(--visual-size);
+    height: var(--visual-size);
+
+    border: 1px solid rgba(255, 255, 255, var(--visual-opacity));
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    animation:
+        rotateVisual var(--visual-speed) linear infinite;
+
+    transition:
+        transform var(--transition-speed) ease,
+        width var(--transition-speed) ease,
+        height var(--transition-speed) ease;
+}
+
+
+/* Second ring */
+
+.visual::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 8%;
+
+    border: 1px solid rgba(255, 255, 255, calc(var(--visual-opacity) * 0.6));
+
+    border-radius: 50%;
+}
+
+
+/* Tiny center point */
+
+.visual::after {
+    content: "";
+
+    position: absolute;
+
+    width: 5px;
+    height: 5px;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background: var(--foreground);
+
+    border-radius: 50%;
+
+    opacity: 0;
+}
+
+.visual.loaded {
+    opacity: 0;
+    animation: fade-in 1.5s ease forwards;
+}
+
+
+/* =========================
+   CLOCK CONTENT
+   ========================= */
+
+.clock-content {
+    position: relative;
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+
+/* =========================
+   TIME
+   ========================= */
+
+.time {
+    margin: 0;
+
+    font-size: var(--time-size);
+    font-weight: 300;
+
+    letter-spacing: var(--letter-spacing);
+
+    line-height: 0.9;
+
+    white-space: nowrap;
+
+    font-variant-numeric: tabular-nums;
+
+    opacity: 0;
+
+    transition: opacity 1s ease;
+}
+
+
+/* =========================
+   DATE
+   ========================= */
+
+.day {
+    margin-top: 2rem;
+
+    font-size: var(--date-size);
+    font-weight: 500;
+
+    letter-spacing: 0.35em;
+
+    text-transform: uppercase;
+
+    opacity: 0;
+
+    transition: opacity 1s ease;
+}
+
+.date {
+    margin-top: 0.6rem;
+
+    font-size: var(--date-size);
+    font-weight: 400;
+
+    letter-spacing: 0.2em;
+
+    text-transform: uppercase;
+
+    opacity: 0;
+
+    transition: opacity 1s ease;
+}
+
+.time.loaded, .day.loaded {
+    opacity: 1;
+}
+
+.date.loaded {
+    opacity: 0.6;
+}
+
+
+/* =========================
+   ANIMATION
+   ========================= */
+
+@keyframes fade-in {
+    from {
+        transform: scale(50%);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(100%);
+        opacity: 1;
+    }
+}
+
+
+
+@keyframes rotateVisual {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 700px) {
+
+    :root {
+        --time-size: 18vw;
+        --visual-size: 75vmin;
+    }
+
+    .day {
+        margin-top: 1.5rem;
+
+        font-size: 0.7rem;
+    }
+
+    .date {
+        font-size: 0.7rem;
+    }
+}
+
+
+/* =========================
+   REDUCED MOTION
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .visual {
+        animation: none;
+    }
+}

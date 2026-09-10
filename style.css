@@ -6,8 +6,8 @@
     --background: #000000;
     --foreground: #ffffff;
 
-    --time-size: 1vw;
-    --date-size: 0.3rem;
+    --time-size: 5vw;
+    --date-size: 0.9rem;
 
     --letter-spacing: 0.08em;
 
@@ -255,7 +255,7 @@ body {
 @media (max-width: 700px) {
 
     :root {
-        --time-size: 18vw;
+        --time-size: 12vw;
         --visual-size: 75vmin;
     }
 
